@@ -17,6 +17,8 @@ void CRender::renderTriangle(const Shader& shader)
 	//glDrawArrays(GL_TRIANGLES, 0, 6);
 }
 
+
+
 void CRender::renderSingFace(const Shader& shader, const glm::vec3& facePos, const glm::vec4& faceColor)
 {
 	if (m_SingleFaceVAO == 0)
@@ -29,8 +31,22 @@ void CRender::renderSingFace(const Shader& shader, const glm::vec3& facePos, con
 	shader.setVec4("uObjColor", faceColor);
 	shader.setMat4("model", model);
 	glBindVertexArray(m_SingleFaceVAO);
+	glDrawArrays(GL_TRIANGLES, 0, 6);
+}
+
+void CRender::renderSingTriangle(const Shader& shader, const glm::vec3& facePos, const glm::vec4& faceColor)
+{
+	if (triangleVAO == 0)
+	{
+		__initTriangleVAO();
+	}
+	glm::mat4 model = glm::mat4(1.0f);
+	model = glm::translate(model, facePos);
+	model = glm::scale(model, glm::vec3(0.4f));
+	shader.setVec4("uObjColor", faceColor);
+	shader.setMat4("model", model);
+	glBindVertexArray(triangleVAO);
 	glDrawArrays(GL_TRIANGLES, 0, 3);
-	//glDrawArrays(GL_TRIANGLES, 0, 6);
 }
 
 void CRender::renderPlane(const Shader& shader)
@@ -204,9 +220,9 @@ void CRender::__initSingleFaceVAO()
 			-1.0f, -1.0f, 0.0f,  0.0f,  0.0f, -1.0f, 0.0f, 0.0f, // bottom-left
 			 1.0f, -1.0f, 0.0f,  0.0f,  0.0f, -1.0f, 1.0f, 0.0f, // bottom-right         
 			 1.0f,  1.0f, 0.0f,  0.0f,  0.0f, -1.0f, 1.0f, 1.0f, // top-right
-			// 1.0f,  1.0f, -1.0f,  0.0f,  0.0f, -1.0f, 1.0f, 1.0f, // top-right
-			//-1.0f, -1.0f, -1.0f,  0.0f,  0.0f, -1.0f, 0.0f, 0.0f, // bottom-left
-			//-1.0f,  1.0f, -1.0f,  0.0f,  0.0f, -1.0f, 0.0f, 1.0f, // top-left
+			 1.0f,  1.0f, 0.0f,  0.0f,  0.0f, -1.0f, 1.0f, 1.0f, // top-right
+			-1.0f, -1.0f, 0.0f,  0.0f,  0.0f, -1.0f, 0.0f, 0.0f, // bottom-left
+			-1.0f,  1.0f, 0.0f,  0.0f,  0.0f, -1.0f, 0.0f, 1.0f, // top-left
 	};
 	glGenVertexArrays(1, &m_SingleFaceVAO);
 	glGenBuffers(1, &m_SingleFaceVBO);
@@ -351,18 +367,10 @@ void CRender::__initQuadVAO()
 
 void CRender::__initTriangleVAO()
 {
-	//float vertices[] = {
-	// //  -1.0f, -1.0f, 0.0f, // leftdown  
-	//	//1.0f, -1.0f, 0.0f, // rightdown
-	// //  -1.0f,  1.0f, 0.0f,  // topleft   
-	//	1.0f, -1.0f, 0.0f, // rightdown 
-	//	1.0f,  1.0f, 0.0f, // rightup 
-	//   -1.0f,  1.0f, 0.0f, // leftup 
-	//};
 	float vertices[] = {
-   -1.0f, -1.0f, 0.0f, // left  
-	1.0f, -1.0f, 0.0f, // right 
-	0.0f,  1.0f, 0.0f  // top   
+		-1.0f, -1.0f, 0.0f,  0.0f,  0.0f, -1.0f, 0.0f, 0.0f, // bottom-left
+		 1.0f, -1.0f, 0.0f,  0.0f,  0.0f, -1.0f, 1.0f, 0.0f, // bottom-right         
+		 1.0f,  1.0f, 0.0f,  0.0f,  0.0f, -1.0f, 1.0f, 1.0f, // top-right
 	};
 
 	glGenVertexArrays(1, &triangleVAO);
@@ -370,8 +378,12 @@ void CRender::__initTriangleVAO()
 	glBindVertexArray(triangleVAO);
 	glBindBuffer(GL_ARRAY_BUFFER, trianlgeVBO);
 	glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
 	glEnableVertexAttribArray(0);
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)0);
+	glEnableVertexAttribArray(1);
+	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(3 * sizeof(float)));
+	glEnableVertexAttribArray(2);
+	glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(6 * sizeof(float)));
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 	glBindVertexArray(0);
 }

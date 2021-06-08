@@ -9,7 +9,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "GLADDLL", "GLADDLL\GLADDLL.
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "glTools", "glTools\glTools.vcxproj", "{08FBB9DE-D0B5-438E-8EF5-1A5BE6042115}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "thickNessTestWithOIT", "thickNessTestWithOIT\thickNessTestWithOIT.vcxproj", "{1DB2988A-3011-4D48-94FF-993A27D9B7CD}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "LayeredSingleTriangle", "LayeredSingleTriangle\LayeredSingleTriangle.vcxproj", "{1DB2988A-3011-4D48-94FF-993A27D9B7CD}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

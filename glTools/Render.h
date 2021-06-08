@@ -73,6 +73,7 @@ public:
 	//œ» π”√shader.use()
 	void GLTOOLSDLL_API renderTriangle(const Shader& shader);
 	void GLTOOLSDLL_API renderSingFace(const Shader& shader, const glm::vec3& facePos, const glm::vec4& faceColor);
+	void GLTOOLSDLL_API renderSingTriangle(const Shader& shader, const glm::vec3& facePos, const glm::vec4& faceColor);
 	void GLTOOLSDLL_API renderPlane(const Shader& shader);
 	void GLTOOLSDLL_API renderCubeSetFromData(const Shader& shader, const 
 		vector<tuple<glm::vec3, glm::vec3, glm::vec4, glm::vec3>>& sceneData);

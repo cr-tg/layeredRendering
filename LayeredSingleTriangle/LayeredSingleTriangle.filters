@@ -44,7 +44,7 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="thicknessOIT.cpp">
+    <ClCompile Include="LayeredSingleTriangle.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>

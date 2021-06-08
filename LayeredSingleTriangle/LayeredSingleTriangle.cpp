@@ -81,7 +81,7 @@ unsigned int lightProjVBO;
 int main()
 {
 	//init context,createWindow and make it currentContext
-	CWindow::setWindowName("OIT_THICK");
+	CWindow::setWindowName("LAYERD_SINGLE_TRIANGLE");
 	CWindow::setWindowSize(glm::uvec2(SCR_WIDTH, SCR_HEIGHT));
 	GLFWwindow* window = CWindow::getOrCreateWindowInstance()->getGlfwWindow();
 
@@ -103,8 +103,6 @@ int main()
 	//¶¨Òåshader
 
 	const std::string pathstr = "./shaders/";
-	Shader layeredQuadShader((pathstr + "layeredQuad.vs").c_str(), (pathstr + "layeredQuad.fs").c_str(), (pathstr + "layeredQuad.gs").c_str());
-	//Shader linkListGenerateShader((pathstr + "LinkListGenerate.vs").c_str(), (pathstr + "LinkListGenerate.fs").c_str());
 	Shader linkListGenerateShader((pathstr + "LinkListGenerate.vs").c_str(), (pathstr + "LinkListGenerate.fs").c_str(), (pathstr + "LinkListGenerate.gs").c_str());
 	Shader linkListSortBlendShader((pathstr + "LinkListSortBlend.vs").c_str(), (pathstr + "LinkListSortBlend.fs").c_str());
 
@@ -152,7 +150,8 @@ int main()
 		setShaderViewAndProj(linkListGenerateShader, observedView, observedProj);
 		glDepthMask(GL_FALSE);
 		//dllRender->FinalErrorRateScene(linkListGenerateShader);
-		dllRender->renderSingFace(linkListGenerateShader, glm::vec3(0.0f, 0.2f, 4.0f), glm::vec4(0.0, 1.0, 0.0, 0.5));
+		//dllRender->renderSingFace(linkListGenerateShader, glm::vec3(0.0f, 0.2f, 4.0f), glm::vec4(0.0, 1.0, 0.0, 0.5));
+		dllRender->renderSingTriangle(linkListGenerateShader, glm::vec3(0.0f, 0.2f, 4.0f), glm::vec4(0.0, 1.0, 0.0, 0.5));
 		//linkListGenerateShader.setBool("offset", false);
 		//dllRender->renderSingFace(linkListGenerateShader, glm::vec3(0.0f, 0.2f, 3.5f), glm::vec4(1.0, 0.0, 0.0, 0.4));
 		//dllRender->renderSingFace(linkListGenerateShader, glm::vec3(0.0f, 0.2f, 3.0f), glm::vec4(0.0, 0.0, 1.0, 0.3));

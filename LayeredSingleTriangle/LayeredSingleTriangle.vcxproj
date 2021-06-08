@@ -22,8 +22,9 @@
     <VCProjectVersion>16.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
     <ProjectGuid>{1db2988a-3011-4d48-94ff-993a27d9b7cd}</ProjectGuid>
-    <RootNamespace>thickNessTestWithOIT</RootNamespace>
+    <RootNamespace>LayeredSingleTriangle</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+    <ProjectName>LayeredSingleTriangle</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -146,9 +147,6 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <None Include="shaders\layeredQuad.fs" />
-    <None Include="shaders\layeredQuad.gs" />
-    <None Include="shaders\layeredQuad.vs" />
     <None Include="shaders\LinkListGenerate.fs" />
     <None Include="shaders\LinkListGenerate.gs" />
     <None Include="shaders\LinkListGenerate.vs" />
@@ -156,7 +154,7 @@
     <None Include="shaders\LinkListSortBlend.vs" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="thicknessOIT.cpp" />
+    <ClCompile Include="LayeredSingleTriangle.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\GLADDLL\GLADDLL.vcxproj">
@@ -165,6 +163,9 @@
     <ProjectReference Include="..\glTools\glTools.vcxproj">
       <Project>{08fbb9de-d0b5-438e-8ef5-1a5be6042115}</Project>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="描述.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
