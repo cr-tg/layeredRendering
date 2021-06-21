@@ -92,6 +92,10 @@ int main()
 	glfwSetWindowPos(window, (1920 - SCR_WIDTH) / 2.0f, (1080 - SCR_HEIGHT) / 2.0f);
 
 	CRender* dllRender = CRender::getOrCreateWindowInstance()->getRender();
+	CTextureDisplay* dllTextureDisplay = CTextureDisplay::getOrCreateWindowInstance()->getTextureDisplay();
+
+	unsigned int noiseTex = dllTextureDisplay->loadTexture(FileSystem::getPath("resources/textures/noiseTexture.png").c_str());
+
 
 	glEnable(GL_DEPTH_TEST);
 	//glDisable(GL_DEPTH_TEST);
@@ -146,11 +150,12 @@ int main()
 		linkListGenerateShader.setFloat("time", glfwGetTime());
 		linkListGenerateShader.setBool("offset", true);
 		linkListGenerateShader.setVec3("cameraPos", camera.Position);
+		linkListGenerateShader.setMat4("model", model);
 
 		setShaderViewAndProj(linkListGenerateShader, observedView, observedProj);
 		glDepthMask(GL_FALSE);
-		//dllRender->FinalErrorRateScene(linkListGenerateShader);
-		//dllRender->renderSingFace(linkListGenerateShader, glm::vec3(0.0f, 0.2f, 4.0f), glm::vec4(0.0, 1.0, 0.0, 0.5));
+		glActiveTexture(GL_TEXTURE0);
+		glBindTexture(GL_TEXTURE_2D, noiseTex);
 		dllRender->renderSingTriangle(linkListGenerateShader, glm::vec3(0.0f, 0.2f, 4.0f), glm::vec4(0.0, 1.0, 0.0, 0.5));
 		//linkListGenerateShader.setBool("offset", false);
 		//dllRender->renderSingFace(linkListGenerateShader, glm::vec3(0.0f, 0.2f, 3.5f), glm::vec4(1.0, 0.0, 0.0, 0.4));
@@ -158,14 +163,7 @@ int main()
 		//dllRender->renderSingFace(linkListGenerateShader, glm::vec3(0.0f, 0.2f, 2.5f), glm::vec4(1.0, 1.0, 0.0, 0.2));
 		//dllRender->renderSingFace(linkListGenerateShader, glm::vec3(0.0f, 0.2f, 2.0f), glm::vec4(1.0, 0.0, 1.0, 0.1));
 		//dllRender->renderSingFace(linkListGenerateShader, glm::vec3(0.0f, 0.2f, 1.5f), glm::vec4(0.0, 1.0, 1.0, 0.6));
-		
-		//layeredQuadShader.use();
-		//setShaderViewAndProj(layeredQuadShader, observedView, observedProj);
-		//dllRender->renderSingFace(layeredQuadShader, glm::vec3(0.0f, 0.2f, 4.0f), glm::vec4(0.0, 1.0, 0.0, 0.5));
-		//dllRender->renderSingFace(layeredQuadShader, glm::vec3(0.0f, 0.2f, 3.5f), glm::vec4(1.0, 0.0, 0.0, 0.4));
-		//dllRender->renderSingFace(layeredQuadShader, glm::vec3(0.0f, 0.2f, 3.0f), glm::vec4(0.0, 0.0, 1.0, 0.3));
-		//dllRender->renderSingFace(layeredQuadShader, glm::vec3(0.0f, 0.2f, 2.5f), glm::vec4(1.0, 1.0, 0.0, 0.2));
-		//dllRender->renderSingFace(layeredQuadShader, glm::vec3(0.0f, 0.2f, 2.0f), glm::vec4(1.0, 0.0, 1.0, 0.1));
+	
 		glDepthMask(GL_TRUE);
 		glMemoryBarrierByRegion(GL_SHADER_STORAGE_BARRIER_BIT);
 

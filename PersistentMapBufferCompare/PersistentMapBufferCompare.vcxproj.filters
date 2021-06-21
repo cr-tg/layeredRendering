@@ -13,5 +13,21 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="shaders">
+      <UniqueIdentifier>{6b109efc-839d-4da9-9e98-0d205f1865ac}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="PersistentMapBufferCompare.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="shaders\PersistentMapBufferCompare.fs">
+      <Filter>shaders</Filter>
+    </None>
+    <None Include="shaders\PersistentMapBufferCompare.vs">
+      <Filter>shaders</Filter>
+    </None>
   </ItemGroup>
 </Project>

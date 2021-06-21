@@ -12,6 +12,7 @@ out VS_OUT
     vec3 worldPos;
     vec3 normal;
     vec3 worldNormal;
+    vec2 texCoord;
 }vs_out;
 
 void main()
@@ -20,6 +21,7 @@ void main()
     vs_out.normal = vec3(projection * view * vec4(normalMatrix * aNormal, 0.0));
     vs_out.worldNormal = vec3(normalMatrix * aNormal);
     vs_out.worldPos = vec3(model * vec4(aPos, 1.0));
+    vs_out.texCoord = aTexCoords;
     gl_Position = projection * view * model * vec4(aPos, 1.0);
 }
 

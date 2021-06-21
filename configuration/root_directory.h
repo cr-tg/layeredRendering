@@ -1,1 +1,1 @@
-const char * logl_root = "E:/vs project/ThicknessWorkFinal";
+const char * logl_root = "E:/gitProject/layeredRendering";

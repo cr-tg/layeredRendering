@@ -1,0 +1,92 @@
+#version 450
+
+#define WORKGROUP_SIZE 1
+layout(local_size_x = WORKGROUP_SIZE,
+local_size_y = 1,
+local_size_z = 1) in;
+
+uniform float current_time;
+uniform float delta_time;
+
+uniform float wind_magnitude;
+uniform float wind_wave_length;
+uniform float wind_wave_period;
+
+uniform mat4 mvp;
+
+
+struct Vertice {
+    vec4 posAndNormalX;
+    vec2 normalYZ;
+    vec2 uv;
+};
+
+layout(binding = 0, std430) buffer inputVBO {
+    Vertice inputVertices[];
+};
+
+layout(binding = 1, std430) buffer outputVBO {
+    Vertice outputVertices[];
+};
+
+// Indirect drawing count
+layout(binding = 2) buffer drawCommand {
+    uint vertexCount;
+    uint instanceCount;// = 1
+    uint firstVertex;// = 0
+    uint firstInstance;// = 0
+} drawCommands;
+
+bool inBounds(float value, float bounds) {
+    return (value >= -bounds) && (value <= bounds);
+}
+
+float rand(float seed) {
+    return fract(sin(seed)*100000.0);
+}
+
+void main() {
+    // Reset the number of blades to 0
+    if (gl_GlobalInvocationID.x == 0) {
+        drawCommands.vertexCount = 0;
+    }
+    barrier();// Wait till all threads reach this point
+
+    uint index = gl_GlobalInvocationID.x;
+    vec3 pos = inputVertices[index].posAndNormalX.xyz;
+
+    // Frustum culling
+    vec4 vClipSpace = mvp * vec4(pos, 1);
+    vClipSpace /= vClipSpace.w;
+
+    bool vOutFrustum =
+    vClipSpace.x < -1 || vClipSpace.x > 1
+    || vClipSpace.y < -1 || vClipSpace.y > 1;
+
+   // if (vOutFrustum) return;
+
+    // Distance culling
+//    const float far1 = 0.95;
+//    if (vClipSpace.z > far1 && rand(index) > 0.5) {
+//        return;
+//    }
+//    const float far2 = 0.98;
+//    if (vClipSpace.z > far2 && rand(index) > 0.2) {
+//        return;
+//    }
+//    const float far3 = 0.99;
+//    if (vClipSpace.z > far3 && rand(index) > 0.1) {
+//        return;
+//    }
+
+    //random extend z axis alone normal dir
+    Vertice newVertice = inputVertices[index];
+    if(index %3 == 1)
+    {
+        vec3 normal = vec3(inputVertices[index].posAndNormalX.w,inputVertices[index].normalYZ);
+        pos += vec3(0.2f) * normal;
+        //newVertice.posAndNormalX.xyz = pos;
+    }
+
+    outputVertices[atomicAdd(drawCommands.vertexCount, 1)] = newVertice;
+}

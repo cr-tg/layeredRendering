@@ -1,7 +1,8 @@
-#version 330 core
+#version 440 core  
 layout (triangles) in;
 //layout (triangle_strip, max_vertices = 3) out;
 layout (triangle_strip, max_vertices = 39) out;
+layout(binding = 0) uniform sampler2D noiseTex;
 
 uniform float time;
 uniform bool offset;
@@ -12,6 +13,7 @@ in VS_OUT
     vec3 worldPos;
     vec3 normal;
     vec3 worldNormal;
+    vec2 texCoord;
 }gs_in[];
 
 out vec4 fcolor;
@@ -29,7 +31,10 @@ vec4 explode(vec4 position, vec3 normal,int times)
         magnitude = 0.0;
     //vec3 direction = dir*normal * ((sin(time) + 1.0) / 2.0) * magnitude;
    // normal +=1.0*vec3(random(vec3(normal*times+0.5)));
-    normal += vec3(random(vec3(times)),random(vec3(times*2)),random(vec3(times*3)));
+    vec3 randomNum = texture(noiseTex,gs_in[0].texCoord).rgb;
+    normal = normalize(normal);
+    normal += randomNum;
+    //normal += vec3(random(vec3(times)),random(vec3(times*2)),random(vec3(times*3)));
     normal = normalize(normal);
     vec3 direction = dir * normal * magnitude;
     return position - vec4(direction.xy,abs(direction.z), 0.0);

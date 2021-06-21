@@ -55,7 +55,7 @@ public:
     }
 
     // render the mesh
-    void Draw(Shader shader) 
+    void Draw(Shader shader,bool drawPatches = false) 
     {
         // bind appropriate textures
         unsigned int diffuseNr  = 1;
@@ -85,7 +85,10 @@ public:
         
         // draw mesh
         glBindVertexArray(VAO);
-        glDrawElements(GL_TRIANGLES, indices.size(), GL_UNSIGNED_INT, 0);
+        if(!drawPatches)
+            glDrawElements(GL_TRIANGLES, indices.size(), GL_UNSIGNED_INT, 0);
+        else
+            glDrawElements(GL_PATCHES, indices.size(), GL_UNSIGNED_INT, 0);
         glBindVertexArray(0);
 
         // always good practice to set everything back to defaults once configured.

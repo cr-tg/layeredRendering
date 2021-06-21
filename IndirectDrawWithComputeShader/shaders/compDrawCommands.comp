@@ -1,0 +1,40 @@
+#version 460 core
+//有了下面的插件才可以进行float的原子操作累加
+#extension GL_NV_shader_atomic_float : require
+
+struct DrawElementsCommand
+{
+	uint vertexCount;
+	uint instanceCount;
+	uint firstIndex;
+	uint baseVertex;
+	uint baseInstance;
+};
+
+layout(std430,binding = 0) coherent restrict buffer ssboLight
+{
+	DrawElementsCommand draw_commands[];
+};
+
+layout(local_size_x = 32, local_size_y = 32, local_size_z = 1) in;
+
+
+void main()
+{
+    const uint idx = gl_LocalInvocationIndex; // Compute space is 1D where x in [0, N)
+    draw_commands[idx].vertexCount = 25350;        // sphere.indices.size(); # of indices in the mesh (GL_ELEMENTS_ARRAY)
+    draw_commands[idx].instanceCount = 1;
+    draw_commands[idx].firstIndex = 0;
+    draw_commands[idx].baseInstance = 0;     // See above
+    draw_commands[idx].baseVertex = 0;       // See above
+}
+
+
+
+// compute shader的内置变量的说明
+//gl_WorkGroupSize 存储本地工作组大小的常数，由local_size_x等决定
+//gl_NumWorkGroups 存储全局工作组的大小
+//gl_LocalInvocationID 当前执行单元在本地工作组的位置，从uvec3(0)到gl_WorkGroupSize-uvec3(1)
+//gl_WorkGroupID 当前工作组在更大的全局工作组的位置，从uvec3(0)到gl_NumWorkGroups-uvec3(1)
+//gl_GlobalInvocationID = gl_WorkGroupID*gl_WorkGroupSize + gl_LocalInvocationID
+//gl_LocalInvocationIndex = gl_LocalInvocationID的一维线性表达

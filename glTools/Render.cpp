@@ -42,7 +42,7 @@ void CRender::renderSingTriangle(const Shader& shader, const glm::vec3& facePos,
 	}
 	glm::mat4 model = glm::mat4(1.0f);
 	model = glm::translate(model, facePos);
-	model = glm::scale(model, glm::vec3(0.4f));
+	//model = glm::scale(model, glm::vec3(0.4f));
 	shader.setVec4("uObjColor", faceColor);
 	shader.setMat4("model", model);
 	glBindVertexArray(triangleVAO);
